@@ -1,43 +1,74 @@
-var http = require('http');
-var fetchr = require('./lib/fetchr');
-var searches = require('./lib/recentSearches');
+// Library imports
 
-var PouchDB = require('pouchdb');
-var db = new PouchDB(process.env.COUCHDB || 'recent-searches');
+const express = require('express')
+const makeDatastore = require('@google-cloud/datastore')
+// const {map} = require('ramda')
 
-fetchr.fetchEvery('http://trove.nla.gov.au/recentSearches', 5000, function (err, html) {
-  if (err) return console.error(err);
-  searches.jsonFromHtml(html, function (err, json) {
-    var timeStamp = new Date();
-    db.put({
-       _id: timeStamp.toISOString(),
-       searches: json
-    });
-  });
-});
+// Local imports
 
-var restify = require('restify');
-var socketio = require('socket.io');
-var server = restify.createServer();
-var io = socketio.listen(server);
-var routes = require('./routes');
+const downloadRecentSearches = require('./recent')
+const getRandomPictures = require('./random_pictures')
 
-server.use(restify.gzipResponse());
+// Helper functions
 
-server.get('/random/pictures.json', routes.pictures.get_random_pictures);
-server.get('/autocomplete', routes.autocomplete);
-server.get(/.*/, restify.serveStatic({
-  directory: './static',
-  default: 'index.html'
-}));
+const addKeyToResult = data => ({
+	data,
+	key: datastore.key('Search')
+})
 
-io.sockets.on('connection', function (socket) {
-  socket.emit('id', socket.client.id);
-  socket.on('search', function (query) {
-    io.sockets.emit('search', query);
-  });
-});
+const map = f => arr => arr.map(f)
 
-server.listen(process.env.PORT, function start_server() {
-	console.log('%s listening at %s', server.name, server.url);
-});
+const ensureResults = results => (0 < results.length ? results : Promise.reject('No results'))
+
+// Setup server
+
+const app = express()
+
+const datastore = makeDatastore()
+
+app.set('view engine', 'pug')
+
+app.use('/scripts', express.static('src/scripts'))
+app.use('/static', express.static('public'))
+
+app.get('/', function(req, res) {
+	res.render('index')
+})
+
+/*
+Receives GET request with `query` parameter.
+For example: `/autocomplete?query=test`
+
+Returns JSON with `results` Array of Strings.
+For example: `{"results": ["test 123", "test abc"]}`
+*/
+app.get('/autocomplete', function(req, res) {
+	// TODO: Implement search
+	res.json({results: [req.query.query]})
+})
+
+app.get('/random/pictures.json', getRandomPictures)
+
+app.get('/update-recent-searches', function(req, res) {
+	downloadRecentSearches()
+	.then(ensureResults)
+	.then(map(addKeyToResult))
+	.then(datastore.save)
+	.then(result => res.status(200).send('Done'))
+	.catch(function(err) {
+		console.error(err)
+		res.status(500).send('Server error').end()
+	})
+})
+
+// Start server
+
+const PORT = process.env.PORT || 8080
+
+if (module === require.main) {
+	app.listen(PORT, function() {
+		console.log(`App listening on port ${PORT}.`)
+	})
+}
+
+module.exports = app
