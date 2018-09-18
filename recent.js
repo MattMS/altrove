@@ -5,6 +5,7 @@ const http = require('http')
 // Library imports
 
 const cheerio = require('cheerio')
+const makeDatastore = require('@google-cloud/datastore')
 
 // Local imports
 
@@ -12,13 +13,15 @@ const makeRequest = require('./make_request')
 
 // Constants
 
+const datastore = makeDatastore()
+
 const recentSearchesURL = 'http://trove.nla.gov.au/recentSearches'
 
 // Parse HTML and create JSON object
 
-const processResults = (html) => new Promise(function(resolve, reject) {
+function saveSearches(html) {
 	const $ = cheerio.load(html)
-	var obj = {}
+	var results = []
 
 	$('#static > table tr').each(function(index, element) {
 		const $tr = cheerio.load(this)
@@ -26,17 +29,18 @@ const processResults = (html) => new Promise(function(resolve, reject) {
 		var time = $tr(this)('td').first().text()
 
 		if (time != '' && text != '') {
-			if (obj[text]) {
-				obj[text].push(time)
-			} else {
-				obj[text] = [time]
-			}
+			results.push({
+				data: {text, time},
+				key: datastore.key('Search')
+			})
 		}
 	})
 
-	resolve(obj)
-})
+	return datastore.upsert(results)
+}
 
 // Exports
 
-module.exports = () => makeRequest(recentSearchesURL).then(processResults)
+module.exports = () =>
+	makeRequest(recentSearchesURL)
+	.then(saveSearches)
