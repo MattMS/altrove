@@ -14,7 +14,7 @@ const trove_api = 'https://api.trove.nla.gov.au/'
 
 const get_start = (count, total) => parseInt(Math.random() * (total - count))
 
-function get_trove_url (args, n, s) {
+function get_trove_url(args, n, s) {
 	if (!s) s = 1
 
 	args['encoding'] = 'json'
@@ -63,8 +63,8 @@ module.exports = function(req, res, next) {
 
 	function get_random_works(count) {
 		trove_search(args, count)
-		.then(function (obj) {
-			var works = obj.response.zone[0].records.work
+		.then(obj => obj.response.zone[0].records.work)
+		.then(function (works) {
 			var ids
 			var sent = false
 
