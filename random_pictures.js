@@ -8,7 +8,7 @@ const make_request = require('./make_request')
 
 // Constants
 
-const trove_api = 'http://api.trove.nla.gov.au/'
+const trove_api = 'https://api.trove.nla.gov.au/'
 
 // Helper functions
 
