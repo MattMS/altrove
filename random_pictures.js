@@ -39,6 +39,11 @@ const trove_search = (args, count) =>
 // Exports
 
 module.exports = function(req, res, next) {
+	if (!process.env.TROVE_KEY) {
+		res.status(500).send('Server error')
+		return
+	}
+
 	if (!req.query.count) {
 		res.status(400).send('Missing query parameter')
 		return
