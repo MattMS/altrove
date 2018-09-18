@@ -39,6 +39,11 @@ const trove_search = (args, count) =>
 // Exports
 
 module.exports = function(req, res, next) {
+	if (!req.query.count) {
+		res.status(400).send('Missing query parameter')
+		return
+	}
+
 	var args = {
 		key: process.env.TROVE_KEY,
 		'l-availability': 'y/f',
