@@ -32,7 +32,7 @@ const get_work_count = (args) =>
 
 const trove_search = (args, count) =>
 	get_work_count(args)
-	.then(total => get_trove_url(args, count, get_start(count, total))
+	.then(total => get_trove_url(args, count, get_start(count, total)))
 	.then(make_request)
 	.then(JSON.parse)
 
