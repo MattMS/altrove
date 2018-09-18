@@ -1,77 +1,65 @@
 {
-  "name": "totes-altrove",
-  "version": "0.0.1-4",
-  "subdomain": "altrove",
-  "domains": [
-    "altrove.totesprofe.sh"
-  ],
   "author": {
     "name": "TotesProfesh",
-    "email": "hello@totesprofe.sh"
+    "email": "sup@totesprofesh.biz"
   },
-  "description": "GovHack 2014 Competition Entry",
-  "main": "",
-  "repository": {
-    "type": "git",
-    "url": "git@github.com:totesprofesh/govhack2014.git"
+  "bugs": {
+    "url": "https://github.com/totesprofesh/altrove/issues"
   },
-  "keywords": [
-    "app",
-    "trove"
-  ],
-  "homepage": "http://govhack2014.totesprofe.sh",
-  "scripts": {
-    "predeploy": "npm run build",
-    "start": "node ./app.js",
-    "dev": "gulp; gulp watch",
-    "watch": "gulp watch",
-    "check": "david",
-    "build": "gulp build"
+  "cloud-repo-tools": {
+    "requiresKeyFile": true,
+    "requiresProjectId": true,
+    "test": {
+      "app": {
+        "args": [
+          "app.js"
+        ],
+        "msg": "Hello, world!"
+      }
+    }
   },
   "contributors": [
     {
       "name": "Josh Gillies",
       "email": "contact@joshgilli.es"
+    },
+    {
+      "name": "Matt McKellar-Spence",
+      "url": "https://www.mattms.com"
     }
   ],
   "dependencies": {
-    "cheerio": "^0.17.0",
-    "elasticsearch": "^2.3.0",
-    "pouchdb": "^2.2.3",
-    "restify": "^2.8.1",
-    "socket.io": "^1.0.6",
-    "socket.io-client": "^1.0.6"
+    "cheerio": "^1.0.0-rc.2",
+    "express": "^4.16.3",
+    "pug": "^2.0.3"
   },
+  "description": "GovHack 2014 Competition Entry",
   "devDependencies": {
-    "david": "^3.1.0",
-    "gulp": "^3.6.0",
-    "gulp-load-plugins": "^0.4.0",
-    "gulp-util": "~2.2.9",
-    "gulp-autoprefixer": "~0.0.6",
-    "gulp-jshint": "^1.5.0",
-    "gulp-jade": "^0.4.2",
-    "gulp-imagemin": "~0.1.4",
-    "gulp-minify-css": "^0.3.0",
-    "gulp-filter": "^0.3.1",
-    "gulp-uglify": "^0.2.1",
-    "gulp-clean": "~0.2.4",
-    "gulp-cache": "~0.1.1",
-    "gulp-sass": "*",
-    "gulp-size": "^0.2.0",
-    "gulp-connect": "^1.0.7",
-    "gulp-useref": "*"
+    "@google-cloud/nodejs-repo-tools": "2.3.x",
+    "ava": "0.25.x",
+    "node-sass": "4.9.x",
+    "supertest": "3.0.x"
   },
   "engines": {
-    "node": ">=0.10.0"
+    "node": "8.x.x"
   },
-  "bugs": {
-    "url": "https://github.com/totesprofesh/govhack2014/issues"
-  },
-  "licenses": [
-    {
-      "type": "MIT"
-    }
+  "homepage": "http://altrove.totesprofesh.biz",
+  "keywords": [
+    "app",
+    "trove"
   ],
-  "analyze": false,
-  "readmeFilename": "README.md"
+  "license": "MIT",
+  "main": "app.js",
+  "name": "totes-altrove",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:totesprofesh/altrove.git"
+  },
+  "scripts": {
+    "cover": "nyc --cache npm test; nyc report --reporter=html",
+    "e2e": "repo-tools test deploy",
+    "start": "node app.js",
+    "test": "repo-tools test app"
+  },
+  "version": "0.2.0"
 }
