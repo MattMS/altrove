@@ -1,7 +1,6 @@
 // Core imports
 
 const querystring = require('querystring')
-const url = require('url')
 
 // Local imports
 
@@ -40,8 +39,6 @@ const trove_search = (args, count) =>
 // Exports
 
 module.exports = function(req, res, next) {
-	var query = url.parse(req.url, true).query
-
 	var args = {
 		key: process.env.TROVE_KEY,
 		'l-availability': 'y/f',
@@ -49,7 +46,7 @@ module.exports = function(req, res, next) {
 		zone: 'picture'
 	}
 
-	var count = parseInt(query.count)
+	var count = parseInt(req.query.query.count)
 	count = (!count || count < 1) ? 10 : Math.min(count, 100)
 
 	var fixed_works = []
