@@ -6,29 +6,13 @@ const http = require('http')
 
 const cheerio = require('cheerio')
 
+// Local imports
+
+const makeRequest = require('./make_request')
+
 // Constants
 
 const recentSearchesURL = 'http://trove.nla.gov.au/recentSearches'
-
-// Make HTTP request
-
-const makeRequest = (url) => new Promise(function(resolve, reject) {
-	http.get(url, function(res) {
-		var data = ''
-
-		res.on('data', function(chunk) {
-			data += chunk
-		})
-
-		res.on('end', function() {
-			return resolve(data)
-		})
-
-		res.on('error', function(err) {
-			return reject(err)
-		})
-	})
-})
 
 // Parse HTML and create JSON object
 
