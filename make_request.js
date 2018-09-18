@@ -1,3 +1,5 @@
+const http = require('http')
+
 module.exports = (url) => new Promise(function(resolve, reject) {
 	http.get(url, function(res) {
 		var data = ''
