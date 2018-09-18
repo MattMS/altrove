@@ -1,0 +1,205 @@
+- var pages = [{title: 'Home', class: 'current'}, {title: 'About', class: ''}, {title: 'Services', class: ''}]
+doctype html
+html(lang="en")
+	head
+		meta(charset="UTF-8")
+
+		meta(
+			content="TotesProfesh"
+			name="creator"
+		)
+
+		meta(
+			content="width=device-width, initial-scale=1"
+			name="viewport"
+		)
+
+		title AlTrove
+
+		link(
+			href="https://fonts.googleapis.com/css?family=PT+Sans+Narrow:400,700|Open+Sans:400,600,700|Open+Sans+Condensed:300,700"
+			rel="stylesheet"
+		)
+
+		link(
+			href="/static/main.css"
+			rel="stylesheet"
+		)
+
+		script(src="/scripts/libs/modernizr-2.7.1.js")
+		script(src="/scripts/libs/jquery-1.11.0.js")
+		script(src="/scripts/libs/avoid-console-errors.js")
+		script(src="/scripts/libs/store.js")
+		script(src="/scripts/libs/enquire.js")
+		script(src="/scripts/libs/jquery.nouislider.min.js")
+		script(src="/scripts/libs/placeholders.jquery.js")
+		script(src="/scripts/libs/socket.io-1.0.6.js")
+		script(src="/scripts/main.js")
+	body(class=(bodyClass||""))
+		header.site-header            
+			nav.primary-navigation
+				h1.logo AlTrove
+
+				ul
+					li: a(href="http://trove.nla.gov.au/book/result?q=%20") 
+						| Books
+						.definition Search books, audio books, theses, conference items and pamphlets. Some full text is included.
+					li: a(href="http://trove.nla.gov.au/picture/result?q=%20") 
+						| Pictures
+						.definition Search photographs, negatives, artworks, drawings, posters, postcards and other pictures, as well as physical objects such as puzzles, instruments and clothing.
+					li: a(href="http://trove.nla.gov.au/article/result?q=%20") 
+						| Articles
+						.definition Search journal articles, reports, book chapters, reviews, working papers, conference items and data sets. Also includes newspaper, magazine and scholarly journal titles.
+					li: a(href="http://trove.nla.gov.au/newspaper/result?q=%20") 
+						| Newspapers
+						.definition Search and read fully digitised newspapers from 1803 to 1954
+					li: a(href="http://trove.nla.gov.au/music/result?q=%20") 
+						| Multimedia
+						.definition Search for printed music, sheet music, musical sound recordings, interviews with significant people, audio books, movies and other videos.
+					li: a(href="http://trove.nla.gov.au/map/result?q=%20") 
+						| Maps
+						.definition Search maps of Australia and the world. Includes printed sheets, atlases, globes, aerial photographs, star charts, nautical charts and tourist maps.
+					li: a(href="http://trove.nla.gov.au/collection/result?q=%20") 
+						| Diaries & Letters
+						.definition Search personal and organisational archives, including diaries, manuscripts, letters, business records, photographs, posters, pamphlets, ephemera ... 
+					li: a(href="http://trove.nla.gov.au/website/result?q=%20") 
+						| Archived Websites
+						.definition The National Library's PANDORA web archive has been building a collection of Australian websites since 1996. Many of the significant sites preserved by PANDORA, such as the Sydney 2000 Olympic Games website are no longer available on the web. 
+					li: a(href="http://trove.nla.gov.au/people/result?q=%20") 
+						| People and Organisations
+						.definition Discover biographical information about significant people and organisations. Find resources by and about them and their relationships to other parties.
+					li: a(href="http://trove.nla.gov.au/list/result?q=%20") Lists
+
+		main.primary-content
+			h1.blurb Find and access over #[a(href="http://trove.nla.gov.au/system/counts") 350 million] resources that relate to Australian history and culture.
+
+			form.search(action="http://trove.nla.gov.au/result")
+				label.primary-search-box
+					span.screen-reader-text Search TROVE for people, places and objects
+					input.textboxsearch(
+						autocomplete="off"
+						name="q"
+						placeholder="Search TROVE for people, places and objects"
+						title="Search for"
+						type="text"
+						value=""
+					)
+					button.btn.icon-search(type="submit") Search
+				.autocomplete
+					h2 Your Searches
+					ul.local
+					h2 Recent TROVE Searches
+					ul.remote
+
+				.tab-nav
+					a.toggle-advanced.btn(href="http://trove.nla.gov.au/?q&adv=y") Advanced
+					a.toggle-history.btn(href="#") History
+
+				.tabs
+					.tab.advanced
+						fieldset.language
+							legend Content origin
+
+							label 
+								span Query Australian content only
+								input(name="l-australian" type="checkbox" value="y")
+
+						fieldset.timeframe
+							legend Timeframe
+
+							.date-slider
+							p Return results between 
+								span.from 1871
+								|  to 
+								span.to 1949
+							.visually-hidden
+								input#q-year1-date(
+									maxlength="4"
+									name="q-year1-date"
+									type="text"
+								)
+								input#q-year2-date(
+									maxlength="4"
+									name="q-year2-date"
+									title="To year"
+									type="text"
+								)
+
+						fieldset.filters
+							legend Filter results to include
+
+							select.filter-options(name="l-format")
+								option(value='Archived website') Archived website
+								option(value='Article') Article
+								option(value='Article/Abstract') Abstract
+								option(value='Article/Book chapter') Book chapter
+								option(value='Article/Conference paper') Conference paper
+								option(value='Article/Journal or magazine article') Journal or magazine article
+								option(value='Article/Other article') Other article
+								option(value='Article/Report') Report
+								option(value='Article/Review') Review
+								option(value='Article/Working paper') Working paper
+								option(value='Art work') Art work
+								option(value='Audio book') Audio book
+								option(value='Book') Book
+								option(value='Book/Braille') Braille
+								option(value='Book/Illustrated') Illustrated
+								option(value='Book/Large print') Large print
+								option(value='Conference Proceedings') Conference Proceedings
+								option(value='Data set') Data set
+								option(value='List') List
+								option(value='Map') Map
+								option(value='Map/Aerial photograph') Aerial photograph
+								option(value='Map/Atlas') Atlas
+								option(value='Map/Braille') Braille
+								option(value='Map/Electronic') Electronic
+								option(value='Map/Globe or object') Globe or object
+								option(value='Map/Large print ') Large print 
+								option(value='Map/Map series') Map series
+								option(value='Map/Microform') Microform
+								option(value='Map/Single map') Single map
+								option(value='Microform') Microform
+								option(value='Object') Object
+								option(value='Periodical') Periodical
+								option(value='Periodical/Journal, magazine, other') Journal, magazine, other
+								option(value='Periodical/Newspaper') Newspaper
+								option(value='Photograph') Photograph
+								option(value='Poster, chart, other') Poster, chart, other
+								option(value='Printed music') Printed music
+								option(value='Published') Published
+								option(value='Sound') Sound
+								option(value='Sound/Interview, lecture, talk') Interview, lecture, talk
+								option(value='Sound/Other sound') Other sound
+								option(value='Sound/Recorded music') Recorded music
+								option(value='Thesis') Thesis
+								option(value='Unpublished') Unpublished
+								option(value='Video') Video
+								option(value='Video/Captioned') Captioned
+
+							div.available-filters
+							div.added-filters
+
+					div.tab.history
+						//- a.clear-history.btn(href="#") Clear History
+						table
+							tr
+								th Query
+								th From
+								th To
+
+		footer.primary-footer
+			nav
+				ul
+					li: a(href="http://help.nla.gov.au/trove/building-with-trove/api") API 
+					li: a(href="http://trove.nla.gov.au/general/about#disclaimer") Disclaimer
+					li: a(href="http://trove.nla.gov.au/general/privacy") Privacy
+					li: a(href="http://trove.nla.gov.au/general/termsofuse") Terms of Use
+					li: a(href="http://help.nla.gov.au/trove/our-policies/copyright") Copyright
+					li: a(href="http://help.nla.gov.au//general/completedlist") Version: 6.1 + Altrove
+
+			a.signoff(href="https://totesprofesh.biz/") Another #[i Totally Professional] production.
+
+		section.background
+			section.cards
+
+		section.live-searches
