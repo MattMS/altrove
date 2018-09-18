@@ -1,0 +1,20 @@
+# cron:
+#   - description: Load recent searches into our database.
+#     retry_parameters:
+#       job_retry_limit: 0
+#     schedule: every 1 hours
+#     url: /update-recent-searches
+
+handlers:
+  - static_dir: src/scripts
+    url: /scripts
+
+  - static_dir: public
+    url: /static
+
+  - redirect_http_response_code: 301
+    script: auto
+    secure: always
+    url: /.*
+
+runtime: nodejs8
