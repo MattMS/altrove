@@ -46,7 +46,7 @@ module.exports = function(req, res, next) {
 		zone: 'picture'
 	}
 
-	var count = parseInt(req.query.query.count)
+	var count = parseInt(req.query.count)
 	count = (!count || count < 1) ? 10 : Math.min(count, 100)
 
 	var fixed_works = []
