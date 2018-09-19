@@ -16,6 +16,13 @@ html(lang="en")
 
 		title AlTrove
 
+		script(async src="https://www.googletagmanager.com/gtag/js?id=UA-45608032-2")
+		script.
+			window.dataLayer = window.dataLayer || [];
+			function gtag(){dataLayer.push(arguments);}
+			gtag('js', new Date());
+			gtag('config', 'UA-45608032-2');
+
 		link(
 			href="https://fonts.googleapis.com/css?family=PT+Sans+Narrow:400,700|Open+Sans:400,600,700|Open+Sans+Condensed:300,700"
 			rel="stylesheet"
